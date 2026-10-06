@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Future-state journey: settling two claims on a phone</title>
+<style>
+  :root{
+    --ink:#17233B;
+    --slate:#566176;
+    --mist:#EDF1F4;
+    --paper:#F7F9FA;
+    --rule:#CDD5DD;
+    --pine:#1E6B5C;
+    --pine-soft:#DCEDE8;
+    --amber:#8A5A12;
+    --amber-soft:#F6E9D2;
+    --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--paper)}
+  body{margin:0;font-family:var(--sans);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .page{max-width:1180px;margin:0 auto;padding:36px 28px 40px}
+
+  header{display:grid;grid-template-columns:1.1fr 1fr;gap:32px;align-items:end;padding-bottom:22px;border-bottom:1px solid var(--rule)}
+  h1{font-family:var(--serif);font-weight:400;font-size:clamp(26px,3.2vw,38px);line-height:1.15;margin:0;letter-spacing:-0.01em}
+  .brief{margin:0;color:var(--slate);font-size:14px;max-width:62ch}
+  .brief strong{color:var(--ink);font-weight:600}
+
+  .arc-wrap{margin:22px 0 0;position:relative}
+  .arc-cap{font-size:12px;color:var(--slate);margin:0 0 2px}
+  .arc{display:block;width:100%;height:auto}
+
+  .timeline{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:4px}
+  .timeline::before{content:"";position:absolute;left:12.5%;right:12.5%;top:17px;border-top:2px solid var(--pine)}
+  .stage{position:relative;display:flex;flex-direction:column}
+  .marker{width:36px;height:36px;border-radius:50%;background:var(--pine);color:#fff;font-weight:600;font-size:15px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;position:relative;z-index:1;box-shadow:0 0 0 5px var(--paper)}
+  .stage h2{font-family:var(--serif);font-weight:400;font-size:21px;margin:0 0 10px;text-align:center}
+  .panel{flex:1;background:#fff;border:1px solid var(--rule);border-radius:6px;padding:4px 14px 6px}
+  .row{padding:11px 0;border-top:1px solid var(--mist)}
+  .row:first-child{border-top:0}
+  .row h3{margin:0 0 4px;font-size:12px;font-weight:600;color:var(--slate);letter-spacing:0.01em}
+  .row p{margin:0;font-size:14px;line-height:1.45}
+  .a{font-weight:600}
+  .go{display:inline-block;margin:0 5px;color:var(--pine);font-weight:600}
+  .row.state{background:var(--pine-soft);margin:0 -14px;padding:11px 14px;border-top:0}
+  .row.state h3{color:var(--pine)}
+  .row.pain h3{color:var(--amber)}
+  .row.pain .go{color:var(--amber)}
+
+  .replaces{margin:14px 0 0;font-size:13px;color:var(--slate);display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  .replaces span.tag{background:var(--amber-soft);color:var(--amber);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:600}
+
+  .adv{margin-top:26px;padding-top:20px;border-top:1px solid var(--rule)}
+  .adv h2{font-family:var(--serif);font-weight:400;font-size:22px;margin:0 0 14px}
+  .adv ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+  .adv li{padding-left:14px;border-left:3px solid var(--pine)}
+  .adv li b{display:block;font-size:15px;margin-bottom:3px}
+  .adv li span{font-size:13.5px;color:var(--slate)}
+
+  footer{margin-top:22px;font-size:12px;color:var(--slate);max-width:110ch}
+
+  a:focus-visible,button:focus-visible{outline:3px solid var(--pine);outline-offset:2px}
+
+  @media (max-width:900px){
+    header{grid-template-columns:1fr;gap:10px}
+    .arc-wrap{display:none}
+    .timeline{grid-template-columns:1fr;gap:22px;padding-left:0}
+    .timeline::before{left:17px;right:auto;top:0;bottom:0;border-top:0;border-left:2px solid var(--pine)}
+    .stage{padding-left:52px}
+    .marker{position:absolute;left:0;top:0;margin:0}
+    .stage h2{text-align:left;margin-top:4px}
+    .adv ol{grid-template-columns:1fr}
+  }
+
+  @page{size:A4 landscape;margin:10mm}
+  @media print{
+    html{background:#fff}
+    .page{max-width:none;padding:0}
+    h1{font-size:24px}
+    .brief{font-size:11px}
+    .row p{font-size:11px}
+    .row h3{font-size:10px}
+    .stage h2{font-size:17px;margin-bottom:6px}
+    .row{padding:7px 0}
+    .row.state{padding:7px 12px;margin:0 -12px}
+    .panel{padding:2px 12px 4px}
+    .adv{margin-top:14px;padding-top:12px}
+    .adv li span{font-size:11px}
+    .adv li b{font-size:12px}
+    .adv h2{font-size:17px;margin-bottom:8px}
+    footer{font-size:10px;margin-top:10px}
+    .marker,.row.state,.replaces span.tag{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<main class="page">
+
+  <header>
+    <h1>Future-state journey: settling two claims in a few spare minutes</h1>
+    <p class="brief"><strong>Persona:</strong> a shift worker with two open claims and a stable but variable income, who can't pay in full. <strong>Goal:</strong> settle both through a plan she can afford and keep, on her phone.</p>
+  </header>
+
+  <div class="arc-wrap" role="img" aria-label="Illustrative curve: Mara's confidence to proceed rises from stage 1 to stage 4.">
+    <p class="arc-cap">Confidence to proceed (illustrative, not measured)</p>
+    <svg class="arc" viewBox="0 0 1000 70" aria-hidden="true" focusable="false">
+      <line x1="125" y1="62" x2="875" y2="62" stroke="#CDD5DD" stroke-width="1" stroke-dasharray="3 5"/>
+      <path d="M125 54 C 230 54, 270 40, 375 38 S 540 26, 625 22 S 790 10, 875 9" fill="none" stroke="#1E6B5C" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="125" cy="54" r="5" fill="#fff" stroke="#1E6B5C" stroke-width="2"/>
+      <circle cx="375" cy="38" r="5" fill="#fff" stroke="#1E6B5C" stroke-width="2"/>
+      <circle cx="625" cy="22" r="5" fill="#fff" stroke="#1E6B5C" stroke-width="2"/>
+      <circle cx="875" cy="9" r="5" fill="#1E6B5C" stroke="#1E6B5C" stroke-width="2"/>
+    </svg>
+  </div>
+
+  <section class="timeline" aria-label="Four-stage future-state journey">
+
+    <article class="stage">
+      <div class="marker" aria-hidden="true">1</div>
+      <h2>Orient</h2>
+      <div class="panel">
+        <div class="row">
+          <h3>User action</h3>
+          <p><span class="a">Opens link on phone</span><span class="go" aria-label="leads to">→</span>sees both claims and why each detail is needed.</p>
+        </div>
+        <div class="row state">
+          <h3>Internal state</h3>
+          <p><span class="a">Wary and rushed</span><span class="go" aria-label="leads to">→</span>reassured before sharing anything sensitive.</p>
+        </div>
+        <div class="row pain">
+          <h3>Pain point addressed</h3>
+          <p><span class="a">No reason for requests</span><span class="go" aria-label="leads to">→</span>every ask explained in plain words.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="stage">
+      <div class="marker" aria-hidden="true">2</div>
+      <h2>Share</h2>
+      <div class="panel">
+        <div class="row">
+          <h3>User action</h3>
+          <p><span class="a">Enters income as a range, adds documents later</span><span class="go" aria-label="leads to">→</span>never stuck, progress saved.</p>
+        </div>
+        <div class="row state">
+          <h3>Internal state</h3>
+          <p><span class="a">Exposed and unsure</span><span class="go" aria-label="leads to">→</span>in control of what she shares and when.</p>
+        </div>
+        <div class="row pain">
+          <h3>Pain point addressed</h3>
+          <p><span class="a">Variable income, missing documents</span><span class="go" aria-label="leads to">→</span>no dead end, no call to Daniel.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="stage">
+      <div class="marker" aria-hidden="true">3</div>
+      <h2>Choose</h2>
+      <div class="panel">
+        <div class="row">
+          <h3>User action</h3>
+          <p><span class="a">Adjusts one monthly amount across both claims</span><span class="go" aria-label="leads to">→</span>sees affordability and missed-payment consequences instantly.</p>
+        </div>
+        <div class="row state">
+          <h3>Internal state</h3>
+          <p><span class="a">Cautious about consequences</span><span class="go" aria-label="leads to">→</span>confident the plan is safe to accept.</p>
+        </div>
+        <div class="row pain">
+          <h3>Pain point addressed</h3>
+          <p><span class="a">Affordability doubt, "could this make things worse?"</span><span class="go" aria-label="leads to">→</span>answered before she commits.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="stage">
+      <div class="marker" aria-hidden="true">4</div>
+      <h2>Keep</h2>
+      <div class="panel">
+        <div class="row">
+          <h3>User action</h3>
+          <p><span class="a">Confirms once, then adjusts or pauses plan herself</span><span class="go" aria-label="leads to">→</span>keeps it when shifts change.</p>
+        </div>
+        <div class="row state">
+          <h3>Internal state</h3>
+          <p><span class="a">Relieved and in control</span><span class="go" aria-label="leads to">→</span>trusts the plan and keeps paying.</p>
+        </div>
+        <div class="row pain">
+          <h3>Pain point addressed</h3>
+          <p><span class="a">Manual agent resolution</span><span class="go" aria-label="leads to">→</span>self-serve completion; agents handle exceptions only.</p>
+        </div>
+      </div>
+    </article>
+
+  </section>
+
+  <p class="replaces"><span class="tag">Replaces</span> The manual loop: abandon at the income request, work it out alone, hunt for documents, call Daniel.</p>
+
+  <section class="adv" aria-labelledby="adv-h">
+    <h2 id="adv-h">Three advantages over the manual workaround</h2>
+    <ol>
+      <li><b>Minutes, not a queue</b><span>She finishes on her phone in spare minutes, instead of waiting on a call outside shift hours and repeating her details.</span></li>
+      <li><b>Both claims, one plan</b><span>Joint handling is the default, instead of depending on an agent spotting the second claim.</span></li>
+      <li><b>Guidance built in</b><span>Affordability help, "why we ask" and missed-payment consequences replace the bank app, notes, inbox hunt and camera uploads.</span></li>
+    </ol>
+  </section>
+
+  <footer>
+    Strategy: reclaim operational simplicity by stripping legacy noise. Value proposition: willing payers create and maintain affordable plans independently, improving recovery, lowering servicing cost and strengthening trust. Only the call to an agent is documented in the case study; the bank app, calculator, document hunt and camera uploads are assumptions to validate. The income range (stage 2) and plan pause (stage 4) need feasibility checks.
+  </footer>
+
+</main>
+</body>
+</html>
