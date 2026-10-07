@@ -3,213 +3,214 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Future-state journey: settling two claims on a phone</title>
+<title>Future-state journey: an affordable plan Mara can keep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --ink:#17233B;
-    --slate:#566176;
-    --mist:#EDF1F4;
-    --paper:#F7F9FA;
-    --rule:#CDD5DD;
-    --pine:#1E6B5C;
-    --pine-soft:#DCEDE8;
-    --amber:#8A5A12;
-    --amber-soft:#F6E9D2;
-    --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
-    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  @page { size: A4 landscape; margin: 10mm; }
+  :root {
+    --ink: #12231E;
+    --ink-2: #44574F;
+    --paper: #F4F6F5;
+    --card: #FFFFFF;
+    --line: #D5DDD9;
+    --g1: #CDEBDD;
+    --g2: #8FD3B3;
+    --g3: #3FA77A;
+    --g4: #1F7A5A;
+    --pain: #A8304F;
+    --pain-bg: #F8E4EA;
   }
-  *{box-sizing:border-box}
-  html{background:var(--paper)}
-  body{margin:0;font-family:var(--sans);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
-  .page{max-width:1180px;margin:0 auto;padding:36px 28px 40px}
-
-  header{display:grid;grid-template-columns:1.1fr 1fr;gap:32px;align-items:end;padding-bottom:22px;border-bottom:1px solid var(--rule)}
-  h1{font-family:var(--serif);font-weight:400;font-size:clamp(26px,3.2vw,38px);line-height:1.15;margin:0;letter-spacing:-0.01em}
-  .brief{margin:0;color:var(--slate);font-size:14px;max-width:62ch}
-  .brief strong{color:var(--ink);font-weight:600}
-
-  .arc-wrap{margin:22px 0 0;position:relative}
-  .arc-cap{font-size:12px;color:var(--slate);margin:0 0 2px}
-  .arc{display:block;width:100%;height:auto}
-
-  .timeline{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:4px}
-  .timeline::before{content:"";position:absolute;left:12.5%;right:12.5%;top:17px;border-top:2px solid var(--pine)}
-  .stage{position:relative;display:flex;flex-direction:column}
-  .marker{width:36px;height:36px;border-radius:50%;background:var(--pine);color:#fff;font-weight:600;font-size:15px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;position:relative;z-index:1;box-shadow:0 0 0 5px var(--paper)}
-  .stage h2{font-family:var(--serif);font-weight:400;font-size:21px;margin:0 0 10px;text-align:center}
-  .panel{flex:1;background:#fff;border:1px solid var(--rule);border-radius:6px;padding:4px 14px 6px}
-  .row{padding:11px 0;border-top:1px solid var(--mist)}
-  .row:first-child{border-top:0}
-  .row h3{margin:0 0 4px;font-size:12px;font-weight:600;color:var(--slate);letter-spacing:0.01em}
-  .row p{margin:0;font-size:14px;line-height:1.45}
-  .a{font-weight:600}
-  .go{display:inline-block;margin:0 5px;color:var(--pine);font-weight:600}
-  .row.state{background:var(--pine-soft);margin:0 -14px;padding:11px 14px;border-top:0}
-  .row.state h3{color:var(--pine)}
-  .row.pain h3{color:var(--amber)}
-  .row.pain .go{color:var(--amber)}
-
-  .replaces{margin:14px 0 0;font-size:13px;color:var(--slate);display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
-  .replaces span.tag{background:var(--amber-soft);color:var(--amber);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:600}
-
-  .adv{margin-top:26px;padding-top:20px;border-top:1px solid var(--rule)}
-  .adv h2{font-family:var(--serif);font-weight:400;font-size:22px;margin:0 0 14px}
-  .adv ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-  .adv li{padding-left:14px;border-left:3px solid var(--pine)}
-  .adv li b{display:block;font-size:15px;margin-bottom:3px}
-  .adv li span{font-size:13.5px;color:var(--slate)}
-
-  footer{margin-top:22px;font-size:12px;color:var(--slate);max-width:110ch}
-
-  a:focus-visible,button:focus-visible{outline:3px solid var(--pine);outline-offset:2px}
-
-  @media (max-width:900px){
-    header{grid-template-columns:1fr;gap:10px}
-    .arc-wrap{display:none}
-    .timeline{grid-template-columns:1fr;gap:22px;padding-left:0}
-    .timeline::before{left:17px;right:auto;top:0;bottom:0;border-top:0;border-left:2px solid var(--pine)}
-    .stage{padding-left:52px}
-    .marker{position:absolute;left:0;top:0;margin:0}
-    .stage h2{text-align:left;margin-top:4px}
-    .adv ol{grid-template-columns:1fr}
+  * { box-sizing: border-box; }
+  html { background: var(--paper); }
+  body {
+    margin: 0;
+    padding: 28px clamp(16px, 3vw, 40px) 32px;
+    max-width: 1280px;
+    margin-inline: auto;
+    font-family: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.4;
+    font-size: 14px;
   }
+  header { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: end; margin-bottom: 22px; }
+  h1 { font-size: clamp(24px, 3vw, 34px); line-height: 1.1; font-weight: 700; margin: 0; letter-spacing: -0.02em; max-width: 22ch; }
+  .persona { font-size: 13px; color: var(--ink-2); margin: 0; border-left: 3px solid var(--g3); padding-left: 12px; }
+  .persona b { color: var(--ink); font-weight: 500; }
 
-  @page{size:A4 landscape;margin:10mm}
-  @media print{
-    html{background:#fff}
-    .page{max-width:none;padding:0}
-    h1{font-size:24px}
-    .brief{font-size:11px}
-    .row p{font-size:11px}
-    .row h3{font-size:10px}
-    .stage h2{font-size:17px;margin-bottom:6px}
-    .row{padding:7px 0}
-    .row.state{padding:7px 12px;margin:0 -12px}
-    .panel{padding:2px 12px 4px}
-    .adv{margin-top:14px;padding-top:12px}
-    .adv li span{font-size:11px}
-    .adv li b{font-size:12px}
-    .adv h2{font-size:17px;margin-bottom:8px}
-    footer{font-size:10px;margin-top:10px}
-    .marker,.row.state,.replaces span.tag{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .track { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin: 0; padding: 0; list-style: none; }
+  .track li { position: relative; padding: 12px 14px 12px 14px; color: var(--ink); font-weight: 700; font-size: 17px; display: flex; align-items: center; gap: 10px; }
+  .track li:nth-child(1) { background: var(--g1); border-radius: 10px 0 0 10px; }
+  .track li:nth-child(2) { background: var(--g2); }
+  .track li:nth-child(3) { background: var(--g3); color: #fff; }
+  .track li:nth-child(4) { background: var(--g4); color: #fff; border-radius: 0 10px 10px 0; }
+  .track .n { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--ink); color: #fff; font-size: 13px; font-weight: 500; flex: none; }
+  .track small { margin-left: auto; font-weight: 400; font-size: 12px; opacity: .85; text-align: right; }
+  .scale { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--ink-2); margin: 6px 4px 14px; }
+
+  ol.stages { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; counter-reset: s; }
+  ol.stages > li { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 12px; counter-increment: s; }
+  .stage-name { font-size: 18px; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
+  .stage-name::before { content: counter(s) ". "; color: var(--g4); }
+  .lbl { font-size: 12px; color: var(--ink-2); font-weight: 500; margin: 0 0 4px; }
+  ul.ab { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+  ul.ab li { font-size: 13px; padding-left: 0; }
+  ul.ab .a { color: var(--ink); }
+  ul.ab .arrow { color: var(--g4); font-weight: 700; margin: 0 3px; }
+  ul.ab .b { color: var(--g4); font-weight: 500; }
+  .state { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; }
+  .state .from { color: var(--ink-2); text-decoration: line-through; text-decoration-color: var(--line); text-decoration-thickness: 2px; }
+  .state .to { background: var(--g1); color: var(--ink); padding: 2px 9px; border-radius: 999px; }
+  .pain { background: var(--pain-bg); border-radius: 8px; padding: 9px 11px; margin-top: auto; }
+  .pain .lbl { color: var(--pain); }
+  .pain p { margin: 0; font-size: 13px; color: var(--ink); }
+
+  .adv { margin-top: 18px; background: var(--ink); color: #fff; border-radius: 12px; padding: 18px 20px 20px; }
+  .adv h2 { font-size: 17px; margin: 0 0 12px; font-weight: 700; letter-spacing: -0.01em; }
+  .adv ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; counter-reset: a; }
+  .adv li { counter-increment: a; font-size: 13px; color: #D9E5DF; }
+  .adv li b { display: block; color: #fff; font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+  .adv li b::before { content: counter(a) ". "; color: var(--g2); }
+  .adv li em { font-style: normal; color: var(--g2); }
+  .note { margin: 12px 0 0; font-size: 11.5px; color: var(--ink-2); }
+
+  :focus-visible { outline: 3px solid var(--g4); outline-offset: 2px; }
+
+  @media (max-width: 960px) {
+    header { grid-template-columns: 1fr; }
+    .track, .scale { display: none; }
+    ol.stages { grid-template-columns: 1fr 1fr; }
+    .adv ol { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) { ol.stages { grid-template-columns: 1fr; } }
+
+  @media print {
+    html, body { background: #fff; }
+    body { padding: 0; max-width: none; font-size: 10.5px; }
+    header { margin-bottom: 10px; }
+    h1 { font-size: 22px; }
+    .persona { font-size: 10.5px; }
+    .track li { padding: 7px 10px; font-size: 14px; }
+    .scale { margin: 4px 4px 8px; font-size: 10px; }
+    ol.stages { gap: 8px; }
+    ol.stages > li { padding: 9px; gap: 8px; break-inside: avoid; }
+    .stage-name { font-size: 14px; }
+    ul.ab li, .pain p { font-size: 10.5px; }
+    ul.ab { gap: 4px; }
+    .adv { margin-top: 10px; padding: 10px 14px 12px; }
+    .adv h2 { font-size: 13px; margin-bottom: 6px; }
+    .adv li { font-size: 10.5px; }
+    .adv li b { font-size: 11.5px; }
+    .note { font-size: 9.5px; margin-top: 6px; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 </style>
 </head>
 <body>
-<main class="page">
 
-  <header>
-    <h1>Future-state journey: settling two claims in a few spare minutes</h1>
-    <p class="brief"><strong>Persona:</strong> a shift worker with two open claims and a stable but variable income, who can't pay in full. <strong>Goal:</strong> settle both through a plan she can afford and keep, on her phone.</p>
-  </header>
+<header>
+  <h1>From stuck at the income request to a plan Mara can keep</h1>
+  <p class="persona"><b>Mara:</b> shift worker, two open claims, stable but variable income. She wants to settle both with an affordable plan, in a few spare minutes on her phone.</p>
+</header>
 
-  <div class="arc-wrap" role="img" aria-label="Illustrative curve: Mara's confidence to proceed rises from stage 1 to stage 4.">
-    <p class="arc-cap">Confidence to proceed (illustrative, not measured)</p>
-    <svg class="arc" viewBox="0 0 1000 70" aria-hidden="true" focusable="false">
-      <line x1="125" y1="62" x2="875" y2="62" stroke="#CDD5DD" stroke-width="1" stroke-dasharray="3 5"/>
-      <path d="M125 54 C 230 54, 270 40, 375 38 S 540 26, 625 22 S 790 10, 875 9" fill="none" stroke="#1E6B5C" stroke-width="2.5" stroke-linecap="round"/>
-      <circle cx="125" cy="54" r="5" fill="#fff" stroke="#1E6B5C" stroke-width="2"/>
-      <circle cx="375" cy="38" r="5" fill="#fff" stroke="#1E6B5C" stroke-width="2"/>
-      <circle cx="625" cy="22" r="5" fill="#fff" stroke="#1E6B5C" stroke-width="2"/>
-      <circle cx="875" cy="9" r="5" fill="#1E6B5C" stroke="#1E6B5C" stroke-width="2"/>
-    </svg>
-  </div>
+<ol class="track" aria-label="Journey timeline">
+  <li><span class="n">1</span>Orient <small>Wary</small></li>
+  <li><span class="n">2</span>Size <small>Gaining control</small></li>
+  <li><span class="n">3</span>Verify <small>At ease</small></li>
+  <li><span class="n">4</span>Commit <small>Secure</small></li>
+</ol>
+<div class="scale" aria-hidden="true"><span>Confidence starts low</span><span>Confidence builds with every explained step</span><span>Plan agreed, no call needed</span></div>
 
-  <section class="timeline" aria-label="Four-stage future-state journey">
+<ol class="stages">
+  <li>
+    <h2 class="stage-name">Orient</h2>
+    <div>
+      <p class="lbl">User action</p>
+      <ul class="ab">
+        <li><span class="a">Opens one link on her phone</span><span class="arrow">→</span><span class="b">sees both claims and the total together.</span></li>
+        <li><span class="a">Sees a plan preview before any form</span><span class="arrow">→</span><span class="b">knows what she's agreeing to.</span></li>
+      </ul>
+    </div>
+    <div>
+      <p class="lbl">Internal state</p>
+      <div class="state"><span class="from">Wary</span><span>to</span><span class="to">Oriented</span></div>
+    </div>
+    <div class="pain">
+      <p class="lbl">Pain point addressed</p>
+      <p>Not knowing whether both claims can be handled together.</p>
+    </div>
+  </li>
 
-    <article class="stage">
-      <div class="marker" aria-hidden="true">1</div>
-      <h2>Orient</h2>
-      <div class="panel">
-        <div class="row">
-          <h3>User action</h3>
-          <p><span class="a">Opens link on phone</span><span class="go" aria-label="leads to">→</span>sees both claims and why each detail is needed.</p>
-        </div>
-        <div class="row state">
-          <h3>Internal state</h3>
-          <p><span class="a">Wary and rushed</span><span class="go" aria-label="leads to">→</span>reassured before sharing anything sensitive.</p>
-        </div>
-        <div class="row pain">
-          <h3>Pain point addressed</h3>
-          <p><span class="a">No reason for requests</span><span class="go" aria-label="leads to">→</span>every ask explained in plain words.</p>
-        </div>
-      </div>
-    </article>
+  <li>
+    <h2 class="stage-name">Size</h2>
+    <div>
+      <p class="lbl">User action</p>
+      <ul class="ab">
+        <li><span class="a">Enters a typical shift-pay range, not exact figures</span><span class="arrow">→</span><span class="b">gets a realistic monthly amount.</span></li>
+        <li><span class="a">Reads a short "why we ask" beside each question</span><span class="arrow">→</span><span class="b">trusts the request and continues.</span></li>
+        <li><span class="a">Slides the amount up or down</span><span class="arrow">→</span><span class="b">sees payoff date and cost instantly.</span></li>
+      </ul>
+    </div>
+    <div>
+      <p class="lbl">Internal state</p>
+      <div class="state"><span class="from">Lost</span><span>to</span><span class="to">In control</span></div>
+    </div>
+    <div class="pain">
+      <p class="lbl">Pain point addressed</p>
+      <p>Why the portal asks for income, and whether the plan is affordable.</p>
+    </div>
+  </li>
 
-    <article class="stage">
-      <div class="marker" aria-hidden="true">2</div>
-      <h2>Share</h2>
-      <div class="panel">
-        <div class="row">
-          <h3>User action</h3>
-          <p><span class="a">Enters income as a range, adds documents later</span><span class="go" aria-label="leads to">→</span>never stuck, progress saved.</p>
-        </div>
-        <div class="row state">
-          <h3>Internal state</h3>
-          <p><span class="a">Exposed and unsure</span><span class="go" aria-label="leads to">→</span>in control of what she shares and when.</p>
-        </div>
-        <div class="row pain">
-          <h3>Pain point addressed</h3>
-          <p><span class="a">Variable income, missing documents</span><span class="go" aria-label="leads to">→</span>no dead end, no call to Daniel.</p>
-        </div>
-      </div>
-    </article>
+  <li>
+    <h2 class="stage-name">Verify</h2>
+    <div>
+      <p class="lbl">User action</p>
+      <ul class="ab">
+        <li><span class="a">Uploads only required documents, with a quality check</span><span class="arrow">→</span><span class="b">avoids rejections and repeat uploads.</span></li>
+        <li><span class="a">Saves progress and resumes later</span><span class="arrow">→</span><span class="b">never loses her place between shifts.</span></li>
+      </ul>
+    </div>
+    <div>
+      <p class="lbl">Internal state</p>
+      <div class="state"><span class="from">Guarded</span><span>to</span><span class="to">At ease</span></div>
+    </div>
+    <div class="pain">
+      <p class="lbl">Pain point addressed</p>
+      <p>Hunting for documents, then giving up and calling an agent.</p>
+    </div>
+  </li>
 
-    <article class="stage">
-      <div class="marker" aria-hidden="true">3</div>
-      <h2>Choose</h2>
-      <div class="panel">
-        <div class="row">
-          <h3>User action</h3>
-          <p><span class="a">Adjusts one monthly amount across both claims</span><span class="go" aria-label="leads to">→</span>sees affordability and missed-payment consequences instantly.</p>
-        </div>
-        <div class="row state">
-          <h3>Internal state</h3>
-          <p><span class="a">Cautious about consequences</span><span class="go" aria-label="leads to">→</span>confident the plan is safe to accept.</p>
-        </div>
-        <div class="row pain">
-          <h3>Pain point addressed</h3>
-          <p><span class="a">Affordability doubt, "could this make things worse?"</span><span class="go" aria-label="leads to">→</span>answered before she commits.</p>
-        </div>
-      </div>
-    </article>
+  <li>
+    <h2 class="stage-name">Commit</h2>
+    <div>
+      <p class="lbl">User action</p>
+      <ul class="ab">
+        <li><span class="a">Reads plain-language missed-payment rules</span><span class="arrow">→</span><span class="b">accepts knowing exactly what happens if she's late.</span></li>
+        <li><span class="a">Confirms both claims in one plan</span><span class="arrow">→</span><span class="b">settles everything in a single sitting.</span></li>
+        <li><span class="a">Taps "talk to an agent" if stuck</span><span class="arrow">→</span><span class="b">Daniel gets full case context, no repeat questions.</span></li>
+      </ul>
+    </div>
+    <div>
+      <p class="lbl">Internal state</p>
+      <div class="state"><span class="from">Fearful</span><span>to</span><span class="to">Secure</span></div>
+    </div>
+    <div class="pain">
+      <p class="lbl">Pain point addressed</p>
+      <p>Fear of consequences, and agents re-running checks from scratch.</p>
+    </div>
+  </li>
+</ol>
 
-    <article class="stage">
-      <div class="marker" aria-hidden="true">4</div>
-      <h2>Keep</h2>
-      <div class="panel">
-        <div class="row">
-          <h3>User action</h3>
-          <p><span class="a">Confirms once, then adjusts or pauses plan herself</span><span class="go" aria-label="leads to">→</span>keeps it when shifts change.</p>
-        </div>
-        <div class="row state">
-          <h3>Internal state</h3>
-          <p><span class="a">Relieved and in control</span><span class="go" aria-label="leads to">→</span>trusts the plan and keeps paying.</p>
-        </div>
-        <div class="row pain">
-          <h3>Pain point addressed</h3>
-          <p><span class="a">Manual agent resolution</span><span class="go" aria-label="leads to">→</span>self-serve completion; agents handle exceptions only.</p>
-        </div>
-      </div>
-    </article>
+<section class="adv" aria-labelledby="adv-h">
+  <h2 id="adv-h">Three competitive advantages over the manual workaround</h2>
+  <ol>
+    <li><b>Affordability is built in</b>She no longer needs her bank app, calculator or notes to find a monthly figure, so she doesn't abandon at the income request.</li>
+    <li><b>Every ask is explained</b>"Why we ask" and missed-payment rules replace the FAQ detour, so she doesn't call an agent just to get answers.</li>
+    <li><b>Handoffs carry context</b>Daniel picks up where she stopped, with both claims in view, instead of re-running checks one claim at a time.</li>
+  </ol>
+</section>
+<p class="note">Assumptions to validate: bank app, calculator, document hunt and camera upload as current workarounds; income-range entry and optional document upload are design hypotheses.</p>
 
-  </section>
-
-  <p class="replaces"><span class="tag">Replaces</span> The manual loop: abandon at the income request, work it out alone, hunt for documents, call Daniel.</p>
-
-  <section class="adv" aria-labelledby="adv-h">
-    <h2 id="adv-h">Three advantages over the manual workaround</h2>
-    <ol>
-      <li><b>Minutes, not a queue</b><span>She finishes on her phone in spare minutes, instead of waiting on a call outside shift hours and repeating her details.</span></li>
-      <li><b>Both claims, one plan</b><span>Joint handling is the default, instead of depending on an agent spotting the second claim.</span></li>
-      <li><b>Guidance built in</b><span>Affordability help, "why we ask" and missed-payment consequences replace the bank app, notes, inbox hunt and camera uploads.</span></li>
-    </ol>
-  </section>
-
-  <footer>
-    Strategy: reclaim operational simplicity by stripping legacy noise. Value proposition: willing payers create and maintain affordable plans independently, improving recovery, lowering servicing cost and strengthening trust. Only the call to an agent is documented in the case study; the bank app, calculator, document hunt and camera uploads are assumptions to validate. The income range (stage 2) and plan pause (stage 4) need feasibility checks.
-  </footer>
-
-</main>
 </body>
 </html>
