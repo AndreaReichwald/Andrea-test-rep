@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fast Lane: Quick Relief Options (prototype v2)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+  --bg:#F3F1F0; --card:#FFFFFF; --ink:#2B2B2B; --muted:#686868; --line:#E7E4E2;
+  --accent:#527A42; --on-accent:#FFFFFF; --accent-mid:#86A27B; --mint:#CBD7C6; --mint-ink:#2B3A24;
+  --hint-bg:#F9C6C4; --hint-line:#EF706B; --hint-mid:#F49B97; --hint-ink:#2B2B2B;
+  --err:#B3322D; --err-line:#EF706B; --dis-bg:#E7E4E2; --dis-ink:#686868; --dis-line:#C9C9C9;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#1F2420; --card:#2A302B; --ink:#F3F1F0; --muted:#C9C9C9; --line:#3A413B;
+    --accent:#86A27B; --on-accent:#1F2420; --accent-mid:#527A42; --mint:#3A4A34; --mint-ink:#E7E4E2;
+    --hint-bg:#5A3735; --hint-line:#EF706B; --hint-mid:#F49B97; --hint-ink:#F3F1F0;
+    --err:#F49B97; --err-line:#F49B97; --dis-bg:#343A35; --dis-ink:#8A8A8A; --dis-line:#4A504B;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#1F2420; --card:#2A302B; --ink:#F3F1F0; --muted:#C9C9C9; --line:#3A413B;
+  --accent:#86A27B; --on-accent:#1F2420; --accent-mid:#527A42; --mint:#3A4A34; --mint-ink:#E7E4E2;
+  --hint-bg:#5A3735; --hint-line:#EF706B; --hint-mid:#F49B97; --hint-ink:#F3F1F0;
+  --err:#F49B97; --err-line:#F49B97; --dis-bg:#343A35; --dis-ink:#8A8A8A; --dis-line:#4A504B;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:15px;line-height:1.45}
+.app{max-width:480px;margin:0 auto;padding:12px 16px 40px}
+header.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.brand{font-weight:700;font-size:18px;letter-spacing:-.01em}
+.brand small{font-weight:500;color:var(--muted);font-size:13px;margin-left:6px}
+.lang{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--dis-bg);color:var(--dis-ink);border-radius:999px;padding:4px 10px;font:inherit;font-size:13px;font-weight:600;cursor:not-allowed}
+h1{font-size:22px;line-height:1.2;margin:6px 0 10px;letter-spacing:-.015em}
+h2{font-size:16px;margin:0 0 6px}
+p{margin:0 0 8px}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.cases .row{display:flex;justify-content:space-between;gap:10px;padding:4px 0;font-size:14px}
+.cases .row b{white-space:nowrap}
+.cases .tot{border-top:1px solid var(--line);margin-top:4px;padding-top:6px;font-weight:700}
+.banner{display:flex;gap:8px;align-items:center;background:var(--mint);color:var(--mint-ink);border-radius:10px;padding:9px 12px;font-weight:600;margin-bottom:10px}
+.hint{display:flex;gap:10px;align-items:center;width:100%;text-align:left;background:var(--hint-bg);color:var(--hint-ink);border:1.5px solid var(--hint-line);border-radius:12px;padding:9px 12px;margin-bottom:10px;font:inherit;cursor:pointer}
+.hint .ic{flex:none;width:34px;height:34px;border-radius:50%;background:var(--hint-line);color:#fff;display:flex;align-items:center;justify-content:center}
+.hint .tx{display:block}
+.hint .tip{display:block;font-size:12px;color:var(--muted);font-weight:600}
+.hint strong{display:block;font-size:15px}
+.hint .sub{font-size:13px}
+.big{display:block;width:100%;text-align:left;font:inherit;border-radius:14px;padding:14px 16px;margin-bottom:12px;cursor:pointer}
+.big h2{font-size:17px;margin:0 0 2px}
+.big .sl{font-size:12.5px;margin-top:6px;opacity:.9}
+.big.norm{background:var(--card);color:var(--ink);border:1.5px solid var(--dis-line)}
+.big.fast{background:var(--accent);color:var(--on-accent);border:1.5px solid var(--accent)}
+.tag{display:inline-block;background:var(--hint-mid);color:#2B2B2B;border-radius:6px;font-size:11px;font-weight:700;padding:1px 6px;margin-left:6px;vertical-align:middle}
+.pf{margin:8px 0}
+.pf label{display:block;font-size:13px;color:var(--muted);margin-bottom:2px}
+.pf .field[readonly]{background:var(--bg)}
+.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--ink);border:1.5px solid var(--accent);border-radius:12px;padding:12px 14px;margin-bottom:10px;font:inherit;cursor:pointer}
+.opt h2{color:var(--accent);margin-bottom:2px}
+.opt .why{font-size:13px;color:var(--muted);margin-top:6px}
+.opt[disabled]{border-color:var(--dis-line);background:var(--dis-bg);color:var(--dis-ink);cursor:not-allowed}
+.opt[disabled] h2,.opt[disabled] .why{color:var(--dis-ink)}
+.takeoff{border:1px dashed var(--dis-line);background:var(--dis-bg);color:var(--dis-ink);border-radius:10px;padding:8px 12px;margin-bottom:8px;cursor:not-allowed}
+.takeoff b{display:block;font-size:14px}
+.takeoff span{font-size:12.5px}
+.linkbtn{background:none;border:0;color:var(--accent);font:inherit;font-weight:600;text-decoration:underline;padding:6px 0;cursor:pointer}
+.btn{display:block;width:100%;background:var(--accent);color:var(--on-accent);border:0;border-radius:10px;padding:13px;font:inherit;font-weight:700;font-size:16px;cursor:pointer}
+.btn[disabled]{background:var(--dis-bg);color:var(--dis-ink);cursor:not-allowed}
+.btn.ghost{background:none;color:var(--accent);border:1.5px solid var(--accent)}
+.back{background:none;border:0;color:var(--accent);font:inherit;font-weight:600;padding:4px 0;margin-bottom:2px;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+label.chk{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line)}
+label.chk:last-of-type{border-bottom:0}
+label.chk input{width:20px;height:20px;margin-top:1px;accent-color:var(--accent)}
+label.chk.off{color:var(--dis-ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.chip{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:7px 9px;font:inherit;font-size:13px;cursor:pointer;min-width:74px;text-align:center}
+.chip[aria-pressed="true"]{border-color:var(--accent);background:var(--mint);color:var(--mint-ink);font-weight:700}
+.field{width:100%;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:10px;font:inherit;font-size:16px}
+.field.bad{border-color:var(--err-line)}
+.err{color:var(--err);font-size:13px;margin-top:4px}
+.ok{color:var(--accent)}
+.seg{display:flex;gap:6px;margin:6px 0}
+.seg button{flex:1;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:8px;font:inherit;cursor:pointer}
+.seg button[aria-pressed="true"]{border-color:var(--accent);background:var(--mint);color:var(--mint-ink);font-weight:700}
+.switch{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:600}
+.switch input{width:44px;height:24px;accent-color:var(--accent)}
+.acc{border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:10px;overflow:hidden}
+.acc-h{display:block;width:100%;text-align:left;background:none;border:0;color:var(--ink);font:inherit;padding:11px 14px;cursor:pointer}
+.acc-h .l1{display:flex;justify-content:space-between;gap:8px;font-weight:700}
+.acc-h .l2{font-size:13px;color:var(--muted)}
+.acc-h .l3{font-size:13px;color:var(--accent);font-weight:600}
+.acc-b{padding:0 14px 14px;border-top:1px solid var(--line)}
+.split{display:flex;gap:8px;margin:10px 0}
+.split div{flex:1;background:var(--bg);border-radius:8px;padding:6px 10px;font-size:13px}
+.split b{display:block;font-size:15px}
+.eur{position:relative}
+.eur .field{padding-left:26px}
+.eur::before{content:"€";position:absolute;left:11px;top:10px;color:var(--muted);font-size:16px}
+.live{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.live div{background:var(--mint);color:var(--mint-ink);border-radius:8px;padding:6px 10px;font-size:13px}
+.live b{display:block;font-size:15px}
+.disc{border-left:4px solid var(--hint-mid);background:var(--card);padding:8px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13.5px}
+.needs{font-size:13px;color:var(--muted);margin:6px 0 0;text-align:center}
+.done{background:var(--mint);color:var(--mint-ink);border-radius:14px;padding:16px;margin-bottom:12px}
+.done h1{margin:0 0 4px}
+.stat{padding:8px 0;border-bottom:1px solid var(--line)}
+.stat:last-child{border-bottom:0}
+.stat .t{display:flex;justify-content:space-between;gap:8px;font-weight:700}
+.stat .s{font-size:13.5px;color:var(--muted)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;padding:16px;z-index:10}
+.modal{background:var(--card);color:var(--ink);border-radius:14px;max-width:440px;width:100%;padding:18px;margin-bottom:env(safe-area-inset-bottom,0px)}
+.modal h2{font-size:18px}
+@media (min-width:520px){.overlay{align-items:center}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand">Riverty<small>Fast Lane</small></div>
+    <button class="lang" type="button" disabled aria-disabled="true" title="Other languages coming later">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>EN
+    </button>
+  </header>
+  <main id="screen"></main>
+</div>
+<div id="modal"></div>
+
+<script>
+/* ---------- Mock data (all invented) ---------- */
+const CL = {
+  1:{id:1,creditor:'Northlight Retail Ltd.',ref:'RV-2026-048213',total:123.45,principal:100.00,costs:23.45,min:10},
+  2:{id:2,creditor:'Rhine Mobile Ltd.',ref:'RV-2026-051977',total:66.66,principal:60.00,costs:6.66,min:5}
+};
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DOW=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+/* ---------- Helpers ---------- */
+const eur = n => '€' + Number(n).toFixed(2);
+const today = (()=>{const d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate());})();
+const addDays=(d,n)=>new Date(d.getFullYear(),d.getMonth(),d.getDate()+n);
+const fmt = d => d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear();
+const iso = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const fromIso = s => { const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||''); return m?new Date(+m[1],+m[2]-1,+m[3]):null; };
+function addMonths(d,n){ const t=new Date(d.getFullYear(),d.getMonth()+n,1); const dim=new Date(t.getFullYear(),t.getMonth()+1,0).getDate(); return new Date(t.getFullYear(),t.getMonth(),Math.min(d.getDate(),dim)); }
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- Calculation: local, deterministic ---------- */
+// 8.52% p.a. on interest-bearing principal, charged monthly. Costs are interest-free.
+// Payments go to costs, then accrued interest, then principal.
+function calcPlan(c, rate){
+  try{
+    if(!isFinite(rate) || rate<=0) return null;
+    let P=c.principal*100, C=c.costs*100, acc=0, R=Math.round(rate*100), tot=0, n=0;
+    const i=0.0852/12;
+    while((P>0.0001||C>0.0001||acc>0.0001) && n<=1200){
+      n++;
+      const int=P*i; acc+=int; tot+=int;
+      let rem=Math.min(R, C+acc+P), a;
+      a=Math.min(rem,C);C-=a;rem-=a;
+      a=Math.min(rem,acc);acc-=a;rem-=a;
+      a=Math.min(rem,P);P-=a;rem-=a;
+    }
+    if(n>1200 || !isFinite(tot) || tot<0) return null;
+    const interestC=Math.round(tot);
+    return {term:n, interest:interestC/100, payable:(Math.round(c.total*100)+interestC)/100};
+  }catch(e){return null;}
+}
+function parseAmt(s){ s=String(s).trim().replace(',','.'); if(!/^\d+(\.\d{1,2})?$/.test(s)) return null; return parseFloat(s); }
+
+/* ---------- State (in memory only) ---------- */
+const S = {
+  screen:0, mode:null, lastMode:null,
+  sel:{1:true,2:true}, extDate:null, ext:{},            // ext: claimId -> ISO date
+  rate:{1:'10',2:'5'}, open:{1:true,2:false},
+  fp: iso(addDays(today,7)),
+  consent:true, channel:'email', contact:'',
+  plan:null, modal:null, pay:{filled:false,step:1}
+};
+const el = id => document.getElementById(id);
+
+/* ---------- Validation ---------- */
+function contactError(){
+  if(!S.consent) return 'A reminder is needed to confirm. Switch it on to continue.';
+  const v=S.contact.trim();
+  if(S.channel==='email'){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)?'':'Enter a valid email address.'; }
+  const digits=v.replace(/[\s()-]/g,'').replace(/^\+/,'');
+  return (/^\d{7,15}$/.test(digits) && /^[+\d\s()-]+$/.test(v))?'':'Enter a valid mobile number, for example +49 151 0000000.';
+}
+function claimState(i){
+  const c=CL[i], a=parseAmt(S.rate[i]);
+  if(a===null) return {ok:false,msg:'Please enter an amount.'};
+  if(a>=c.total) return {ok:false,msg:'This equals the full payment of this claim. No instalment plan is needed.'};
+  if(a<c.min) return {ok:false,msg:'This is below the minimum rate of €'+c.min+'. A lower rate needs proof of income at your next login.'};
+  const r=calcPlan(c,a);
+  if(!r) return {ok:false,fail:true,msg:'Calculation currently not possible'};
+  return {ok:true,a,r};
+}
+function fpState(){
+  const d=fromIso(S.fp), min=addDays(today,1), max=addDays(today,30);
+  if(!d || d<min || d>max) return {ok:false,msg:'Choose a first-payment date between '+fmt(min)+' and '+fmt(max)+'.'};
+  return {ok:true,d};
+}
+function planReason(){
+  for(const i of [1,2]){ const s=claimState(i); if(!s.ok) return 'Claim '+i+' ('+CL[i].creditor+') needs attention.'; }
+  if(!fpState().ok) return 'Choose a valid first-payment date.';
+  const ce=contactError(); if(ce) return ce;
+  return '';
+}
+function extReason(){
+  const n=[1,2].filter(i=>S.sel[i]&&!S.ext[i]).length;
+  if(!n) return 'Select at least one claim.';
+  if(!S.extDate) return 'Pick a date for your extra time.';
+  const ce=contactError(); if(ce) return ce;
+  return '';
+}
+
+/* ---------- Shared UI pieces ---------- */
+const bulb = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg>`;
+const hintHTML = () => `<button class="hint" type="button" data-a="saveinterest"><span class="ic">${bulb}</span><span class="tx"><span class="tip">Finance tip</span><strong>Save interest now</strong><span class="sub">Pay once now and save interest.</span></span></button>`;
+const helpHTML = () => `<div style="text-align:center"><button class="linkbtn" type="button" data-a="help">Request help</button></div>`;
+const whyNote = 'Contact details are used for reminders only.';
+
+function reminderHTML(){
+  const ce=contactError();
+  return `<div class="card">
+    <label class="switch"><span>Remind me before my date</span><input type="checkbox" data-ch="consent" ${S.consent?'checked':''}></label>
+    <div style="${S.consent?'':'display:none'}">
+      <div class="seg" role="group" aria-label="Reminder channel">
+        <button type="button" data-a="chan" data-v="email" aria-pressed="${S.channel==='email'}">Email</button>
+        <button type="button" data-a="chan" data-v="sms" aria-pressed="${S.channel==='sms'}">SMS</button>
+      </div>
+      <input id="contact" class="field ${S.contact&&ce?'bad':''}" type="${S.channel==='email'?'email':'tel'}" inputmode="${S.channel==='email'?'email':'tel'}" autocomplete="off" placeholder="${S.channel==='email'?'name@example.com':'+49 151 0000000'}" value="${esc(S.contact)}" aria-label="Reminder contact">
+    </div>
+    <div id="cmsg" class="err">${(S.contact||!S.consent)?esc(ce):''}</div>
+    <div class="small muted" style="margin-top:4px">${whyNote}</div>
+  </div>`;
+}
+
+/* ---------- Screens ---------- */
+function screen0(){
+  const rows=[1,2].map(i=>`<div class="row"><span>${esc(CL[i].creditor)}<br><span class="small muted">${CL[i].ref}</span></span><b>${eur(CL[i].total)}</b></div>`).join('');
+  return `
+  ${hintHTML()}
+  <h1>How would you like to proceed?</h1>
+  <div class="card cases">${rows}<div class="row tot"><span>Total</span><b>${eur(190.11)}</b></div></div>
+  <button class="big norm" type="button" data-a="normal">
+    <h2>Normal instalment agreement</h2>
+    <div>Usual rate: €30 + €10 = €40 a month</div>
+    <div class="sl muted">Income documents might be needed for low rates</div>
+  </button>
+  <button class="big fast" type="button" data-a="fast">
+    <h2>Fast Lane: Quick Relief Options<span class="tag">New</span></h2>
+    <div>More time or minor instalments</div>
+    <div class="sl">No documents needed today</div>
+  </button>
+  ${helpHTML()}`;
+}
+
+function screen1(){
+  const bothExt = S.ext[1] && S.ext[2];
+  const aOff = bothExt || !!S.plan;
+  const bOff = !!S.plan;
+  return `
+  <button class="back" type="button" data-a="back">‹ Back</button>
+  ${hintHTML()}
+  <h1>Fast Lane: Quick Relief Options</h1>
+  <div class="banner"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>No documents needed today</div>
+  ${S.plan?`<div class="card small">Your plans are confirmed and locked. <button class="linkbtn" data-a="viewconf">View confirmation</button></div>`:''}
+  <button class="opt" type="button" data-a="openA" ${aOff?'disabled':''}>
+    <h2>I need more time</h2>
+    <div>A few extra days, up to 7. No payment now, no extra fees. For one or both claims.</div>
+    ${bothExt?'<div class="why">Both claims already extended.</div>':''}
+  </button>
+  <button class="opt" type="button" data-a="openB" ${bOff?'disabled':''}>
+    <h2>Minor instalments</h2>
+    <div>From €10 a month for claim 1 and €5 for claim 2. One plan per claim, confirmed together.</div>
+    ${bOff?'<div class="why">Plan already confirmed.</div>':''}
+  </button>
+  <div class="takeoff" aria-disabled="true"><b>Request a longer deferral</b><span>Why we ask: this needs income documents. Have your proof of income ready for your next login.</span></div>
+  <div class="takeoff" aria-disabled="true"><b>Pay less than the minimum rate</b><span>Why we ask: this needs income documents. Have your proof of income ready for your next login.</span></div>
+  ${helpHTML()}`;
+}
+
+function screen2A(){
+  const min=addDays(today,1);
+  const claims=[1,2].map(i=>{
+    const used=!!S.ext[i];
+    return `<label class="chk ${used?'off':''}"><input type="checkbox" data-ch="claim" data-id="${i}" ${used?'disabled':(S.sel[i]?'checked':'')}>
+      <span><b>${esc(CL[i].creditor)}</b> · ${eur(CL[i].total)}<br><span class="small muted">${CL[i].ref}${used?' · Already used':''}</span></span></label>`;
+  }).join('');
+  let chips='';
+  for(let k=1;k<=7;k++){const d=addDays(today,k);chips+=`<button type="button" class="chip" data-a="date" data-v="${iso(d)}" aria-pressed="${S.extDate===iso(d)}">${DOW[d.getDay()]}<br>${d.getDate()} ${MON[d.getMonth()]}</button>`;}
+  return `
+  <button class="back" type="button" data-a="back">‹ Back</button>
+  ${hintHTML()}
+  <h1>I need more time</h1>
+  <div class="card"><h2>Which claims?</h2>${claims}</div>
+  <div class="card"><h2>Extra time until</h2>
+    <div class="small muted">Dates from ${fmt(min)} to ${fmt(addDays(today,7))} can be chosen.</div>
+    <div class="chips">${chips}</div>
+    <div class="takeoff" aria-disabled="true" style="margin:8px 0 0"><b>Request a longer deferral</b><span>Needs proof of income at your next login.</span></div>
+  </div>
+  ${reminderHTML()}
+  <div id="afoot">${footA()}</div>
+  ${helpHTML()}`;
+}
+function footA(){
+  const r=extReason();
+  return `<div class="disc"><b>No extra fees.</b> Interest continues to accrue. Please log in by ${S.extDate?fmt(fromIso(S.extDate)):'the chosen date'}.</div>
+  <button class="btn" id="confirm" type="button" data-a="confirmA" ${r?'disabled':''}>Confirm</button>
+  <div class="needs">${esc(r)}</div>`;
+}
+
+function dynHTML(i){
+  const s=claimState(i), fp=fpState();
+  let h='';
+  if(!s.ok){ h+=`<div class="err" role="alert">${esc(s.msg)}</div>`; }
+  else{
+    const end = fp.ok? fmt(addMonths(fp.d,s.r.term-1)) : '–';
+    h+=`<div class="live"><div>Ends<b>${end}</b></div><div>Term<b>${s.r.term} month${s.r.term>1?'s':''}</b></div><div>Total interest<b>${eur(s.r.interest)}</b></div><div>Total payable<b>${eur(s.r.payable)}</b></div></div>`;
+  }
+  return h;
+}
+function sumHTML(i){
+  const s=claimState(i), fp=fpState();
+  if(!s.ok) return s.fail?'Calculation currently not possible':'Needs attention';
+  return eur(s.a)+' a month'+(fp.ok?', ends '+fmt(addMonths(fp.d,s.r.term-1)):'');
+}
+function cardHTML(i){
+  const c=CL[i], o=S.open[i], s=claimState(i);
+  return `<div class="acc">
+    <button class="acc-h" type="button" data-a="toggle" data-id="${i}" aria-expanded="${o}">
+      <div class="l1"><span>${esc(c.creditor)}</span><span>${eur(c.total)} ${o?'▴':'▾'}</span></div>
+      <div class="l2">${c.ref}</div>
+      <div class="l3" id="sum${i}">${esc(sumHTML(i))}</div>
+    </button>
+    ${o?`<div class="acc-b">
+      <div class="split"><div>Principal<b>${eur(c.principal)}</b>interest-bearing</div><div>Costs<b>${eur(c.costs)}</b>interest-free</div></div>
+      <label for="rate${i}" class="small"><b>Monthly rate</b> (minimum €${c.min})</label>
+      <div class="eur"><input id="rate${i}" class="field ${s.ok?'':'bad'}" type="text" inputmode="decimal" data-rate="${i}" value="${esc(S.rate[i])}" autocomplete="off"></div>
+      <div id="dyn${i}">${dynHTML(i)}</div>
+    </div>`:''}
+  </div>`;
+}
+function screen2B(){
+  const fp=fpState(), min=addDays(today,1), max=addDays(today,30);
+  return `
+  <button class="back" type="button" data-a="back">‹ Back</button>
+  ${hintHTML()}
+  <h1>Minor instalments</h1>
+  <p class="small muted">One plan per claim. You confirm both together, so nothing stays open.</p>
+  ${cardHTML(1)}${cardHTML(2)}
+  <div class="card"><label for="fp"><b>First payment date</b> (both plans)</label>
+    <input id="fp" class="field ${fp.ok?'':'bad'}" type="date" min="${iso(min)}" max="${iso(max)}" value="${S.fp}">
+    <div class="small muted">Between ${fmt(min)} and ${fmt(max)}.</div>
+    <div id="fpmsg" class="err">${fp.ok?'':esc(fp.msg)}</div>
+  </div>
+  ${reminderHTML()}
+  <div id="bfoot">${footB()}</div>
+  ${helpHTML()}`;
+}
+function footB(){
+  const s1=claimState(1), s2=claimState(2), r=planReason();
+  const sum = (s1.ok&&s2.ok) ? `<div class="card small" style="margin-bottom:0">Together you pay <b>${eur(s1.a+s2.a)}</b> a month for both claims.</div>` : '';
+  return `${sum}
+  <div class="disc">If you miss a payment, we will remind you first. If it stays unpaid, the plan can end and the open amount becomes due in full. You can ask for help at any time.</div>
+  <button class="btn" id="confirm" type="button" data-a="confirmB" ${r?'disabled':''}>Confirm both plans</button>
+  <div class="needs">${esc(r)}</div>`;
+}
+
+function screen3(){
+  const chan = S.channel==='email'?'email':'SMS';
+  let head, body, extra='';
+  if(S.lastMode==='plan' && S.plan){
+    const P=S.plan;
+    head='We have an agreement!';
+    body=[1,2].map(i=>`<div class="stat"><div class="t"><span>${esc(CL[i].creditor)}</span><span>${eur(CL[i].total)}</span></div>
+      <div class="s">${CL[i].ref}<br>Rate ${eur(P.rate[i])} a month · ends ${fmt(P.end[i])} · total interest ${eur(P.interest[i])}</div></div>`).join('');
+    extra=`<div class="card"><b>First payment:</b> ${fmt(P.fp)}<br><b>Combined monthly total:</b> ${eur(P.rate[1]+P.rate[2])}</div>`;
+  } else {
+    head='Extra time confirmed';
+    body=[1,2].map(i=>`<div class="stat"><div class="t"><span>${esc(CL[i].creditor)}</span><span>${eur(CL[i].total)}</span></div>
+      <div class="s">${CL[i].ref}<br>${S.ext[i]?'Extended until <b>'+fmt(fromIso(S.ext[i]))+'</b>':'Not extended'}</div></div>`).join('');
+    const dates=[1,2].filter(i=>S.ext[i]).map(i=>S.ext[i]).sort();
+    const by=dates.length?fmt(fromIso(dates[0])):'';
+    extra=`<div class="card"><b>Please log in by ${by} to agree on a suitable instalment plan with us.</b><br>
+      <span class="small muted">Interest continues to accrue during the extra time. If you don't log in by then, the extra time ends and your regular reminders continue.</span></div>`;
+  }
+  return `
+  ${hintHTML()}
+  <div class="done"><h1>${head}</h1><div class="small">Nothing else to do today. A written summary is on its way.</div></div>
+  <div class="card">${body}</div>
+  ${extra}
+  <div class="card small">${S.consent&&S.contact?'Reminder by '+chan+' to <b>'+esc(S.contact)+'</b>':'No reminder set.'}</div>
+  <button class="btn ghost" type="button" data-a="home">Back to start</button>
+  ${helpHTML()}`;
+}
+
+/* ---------- Render ---------- */
+function render(){
+  const m=el('screen');
+  m.innerHTML = S.screen===0?screen0():S.screen===1?screen1():S.screen===2?(S.mode==='A'?screen2A():screen2B()):screen3();
+  window.scrollTo(0,0);
+}
+function refreshDyn(){
+  if(S.screen!==2) return;
+  if(S.mode==='B'){
+    [1,2].forEach(i=>{
+      const d=el('dyn'+i), s=el('sum'+i), r=el('rate'+i);
+      if(d) d.innerHTML=dynHTML(i);
+      if(s) s.textContent=sumHTML(i);
+      if(r) r.classList.toggle('bad',!claimState(i).ok);
+    });
+    const f=el('fp'); if(f) f.classList.toggle('bad',!fpState().ok);
+    const fm=el('fpmsg'); if(fm) fm.textContent=fpState().ok?'':fpState().msg;
+    el('bfoot').innerHTML=footB();
+  } else { el('afoot').innerHTML=footA(); }
+  const cm=el('cmsg'), ce=contactError();
+  if(cm) cm.textContent=(S.contact||!S.consent)?ce:'';
+  const c=el('contact'); if(c) c.classList.toggle('bad',!!(S.contact&&ce));
+}
+
+/* ---------- Modals ---------- */
+function modalBody(kind){
+  if(kind==='normal') return `<h2>Normal instalment agreement</h2><p>The regular instalment journey starts here. Not part of this prototype.</p><p class="small muted">Income documents might be needed for low rates.</p><button class="btn" type="button" data-a="closemodal" id="mclose">Close</button>`;
+  if(kind==='help') return `<h2>Request help</h2><p>Talk to us any time. Phone: 0800 000 0000 (mock number), Mon–Fri, 8:00–18:00.</p><p class="small muted">Chat and callback are not part of this prototype. Your entries are kept.</p><button class="btn" type="button" data-a="closemodal" id="mclose">Close</button>`;
+  // payment mock-up
+  const f=S.pay.filled;
+  if(S.pay.step===2) return `<h2>Payment details received</h2><p>Mock-up only: no details were sent and no payment was taken.</p><p class="small muted">In the live product, the existing payment process continues here.</p><button class="btn" type="button" data-a="closemodal" id="mclose">Close</button>`;
+  return `<h2>Payment details</h2>
+    <div class="pf"><label>Amount</label><input class="field" readonly value="${f?'€50.00':''}" placeholder="Amount of your choice"></div>
+    <div class="pf"><label>Account holder</label><input class="field" readonly value="${f?'Mara Example':''}" placeholder="Name"></div>
+    <div class="pf"><label>IBAN</label><input class="field" readonly value="${f?'DE00 0000 0000 0000 0000 00':''}" placeholder="DE00 0000 0000 0000 0000 00"></div>
+    ${f?'':'<button class="btn ghost" type="button" data-a="fillpay" id="mclose" style="margin:10px 0 8px">Add payment details</button>'}
+    <button class="btn" type="button" data-a="paynow" ${f?'':'disabled'} style="margin-top:8px">Pay now</button>
+    <button class="linkbtn" type="button" data-a="closemodal" style="display:block;margin:6px auto 0">Cancel</button>`;
+}
+function openModal(kind){
+  S.modal=kind;
+  el('modal').innerHTML=`<div class="overlay" data-a="closemodal"><div class="modal" role="dialog" aria-modal="true" id="mbody">${modalBody(kind)}</div></div>`;
+  const c=el('mclose'); if(c) c.focus();
+}
+function redrawModal(){ const m=el('mbody'); if(m){ m.innerHTML=modalBody(S.modal); const c=el('mclose'); if(c) c.focus(); } }
+function closeModal(){ el('modal').innerHTML=''; S.modal=null; S.pay={filled:false,step:1}; }
+
+/* ---------- Events ---------- */
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-a]'); if(!t) return;
+  const a=t.dataset.a;
+  if(a==='closemodal'){ if(e.target===t || t.id==='mclose' || t.tagName==='BUTTON') closeModal(); return; }
+  if(a==='fillpay'){ S.pay.filled=true; redrawModal(); return; }
+  if(a==='paynow'){ S.pay.step=2; redrawModal(); return; }
+  if(a==='normal'){ openModal('normal'); return; }
+  if(a==='fast'){ S.screen=1; render(); return; }
+  if(a==='saveinterest'){ openModal('save'); return; }
+  if(a==='help'){ openModal('help'); return; }
+  if(a==='openA'){  S.mode='A'; S.screen=2; S.sel={1:!S.ext[1],2:!S.ext[2]}; S.extDate=null; render(); return; }
+  if(a==='openB'){ if(S.plan) return; S.mode='B'; S.screen=2; render(); return; }
+  if(a==='back'){ S.screen=Math.max(0,S.screen-1); render(); return; }
+  if(a==='home'){ S.screen=0; render(); return; }
+  if(a==='viewconf'){ S.lastMode='plan'; S.screen=3; render(); return; }
+  if(a==='date'){ S.extDate=t.dataset.v; render(); return; }
+  if(a==='chan'){ S.channel=t.dataset.v; render(); return; }
+  if(a==='toggle'){ const i=t.dataset.id; S.open[i]=!S.open[i]; render(); return; }
+  if(a==='confirmA'){
+    if(S.busy||extReason()) return; S.busy=true;
+    [1,2].forEach(i=>{ if(S.sel[i]&&!S.ext[i]) S.ext[i]=S.extDate; });
+    S.lastMode='ext'; S.screen=3; render(); S.busy=false; return;
+  }
+  if(a==='confirmB'){
+    if(S.busy||S.plan||planReason()) return; S.busy=true;
+    const s1=claimState(1), s2=claimState(2), fp=fpState().d;
+    S.plan={fp, rate:{1:s1.a,2:s2.a}, interest:{1:s1.r.interest,2:s2.r.interest}, end:{1:addMonths(fp,s1.r.term-1),2:addMonths(fp,s2.r.term-1)}};
+    S.lastMode='plan'; S.screen=3; render(); S.busy=false; return;
+  }
+});
+document.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.dataset.ch==='consent'){ S.consent=t.checked; render(); }
+  else if(t.dataset.ch==='claim'){ S.sel[t.dataset.id]=t.checked; refreshDyn(); }
+  else if(t.id==='fp'){ S.fp=t.value; refreshDyn(); }
+});
+document.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.dataset.rate){ S.rate[t.dataset.rate]=t.value; refreshDyn(); }
+  else if(t.id==='contact'){ S.contact=t.value; refreshDyn(); }
+  else if(t.id==='fp'){ S.fp=t.value; refreshDyn(); }
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+render();
+</script>
+</body>
+</html>
