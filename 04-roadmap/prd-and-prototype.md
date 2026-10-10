@@ -38,5 +38,5 @@ ENABLER (parallel, non-negotiable): event tracking for funnel, agreement, 7-day 
 - **One thing my PRD makes explicit that a vague brief would have missed:** The PRD sets the success condition upfront: a gain in the headline metric (the SSR) only counts if the quality of the outcome holds (60-day miss rate is kept)
 
 ## Prompt-to-prototype sprint
-- **Where did the prototype reveal a gap in my PRD logic? (what I had to update):** the actual new feature was already the first screen, there was an entry screen missing, explicitely offering that feature. Plus several details that needed correction.
-- **My prototype, as a link or a screenshot (publish or share from your tool; in Lovable that is Share → Share Preview, in Bolt Publish → Web. No share URL? Screenshot the working flow):** _(not filled in)_
+- **Where did the prototype reveal a gap in my PRD logic? (what I had to update):** the actual new feature was already the first screen, there was an entry screen missing, explicitly offering that feature. Plus several details that needed correction.
+- **My prototype, as a link or a screenshot (publish or share from your tool; in Lovable that is Share → Share Preview, in Bolt Publish → Web. No share URL? Screenshot the working flow):** Fast Lane_ Quick Relief Options.html
